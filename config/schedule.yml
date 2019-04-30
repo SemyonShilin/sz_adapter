@@ -1,0 +1,10 @@
+fetch_worker:
+  cron: "*/15 * * * *"
+  class: "FetchFileJob"
+  queue: fetch
+
+put_file_job:
+  cron: "0 */2 * * *"
+  class: "PutFileJob"
+  queue: put
+

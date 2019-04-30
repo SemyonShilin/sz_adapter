@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - logs:/usr/src/app/log
+      - bundle:/usr/local/bundle
+      - "~/sz_adapter/log:/usr/src/app/log"
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+    command: /bin/sh start.sh
+
+  sidekiq:
+    build: .
+    volumes:
+      - logs:/usr/src/app/log
+      - bundle:/usr/local/bundle
+      - "~/sz_adapter/log:/usr/src/app/log"
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+    restart: always
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+  redis:
+    image: redis
+    volumes:
+      - ./config/redis.conf:/var/lib/redis.conf:ro
+      - redis:/var/lib/redis/data
+    ports:
+      - "6379:6379"
+    restart: always
+    command: redis-server /var/lib/redis.conf
+
+  db:
+    image: postgres:11
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: sz_adapter_production
+    volumes:
+      - pg:/var/lib/postgresql
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg:
+  pg_data:
+  redis:
+  logs:
+  bundle:

@@ -1,0 +1,31 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV.fetch('DB_PORT', 5432) %>
+  database: <%= ENV['DB_DATABASE'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: <%= ENV['DB_POOL'] %>
+  timeout: 5000
+  prepared_statements: false
+
+development:
+  <<: *default
+  database: sz_development
+
+test:
+  <<: *default
+  database: sz_test
+
+production:
+  <<: *default
+
+dev:
+  <<: *default
+
+demo:
+  <<: *default
+
+production_cit:
+  <<: *default
