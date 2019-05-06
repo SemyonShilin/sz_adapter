@@ -8,3 +8,9 @@ put_file_job:
   class: "PutFileJob"
   queue: put
 
+refresh_token_job:
+  cron: "*/10 * * * *"
+  class: "RefreshTokenJob"
+  queue: default
+
+

@@ -1,5 +1,5 @@
 class PutFileJob < ApplicationJob
-  queue_as :default
+  queue_as :put
 
   def perform
     file = Service::Generate.call
