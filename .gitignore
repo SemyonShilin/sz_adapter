@@ -19,7 +19,6 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-.env.development
 .env
 
 vendor/cache
